@@ -211,14 +211,7 @@ public class HwmPlugin implements FlutterPlugin, ActivityAware, MethodCallHandle
           }
         });
       } else if (callType == 5) {
-
-//        setRxJavaErrorHandler();
-//        OpenSDKConfig sdkConfig = new OpenSDKConfig(application)
-//                .setAppId("685a5a67c3a74afaaa12dffae3c86e5e") //向会议服务器申请的appid
-//                .setNeedConfChat("true".equals(BuildConfig.needConfChat))
-//                .setNeedScreenShare("true".equals(BuildConfig.needScreenShare))
-//                .setNeedFeedback(false);
-//        HWMSdk.init(application, sdkConfig);
+        HWMHelp.init(application);
 
       }
 
