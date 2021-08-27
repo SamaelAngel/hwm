@@ -35,13 +35,13 @@ public class HwmPlugin implements FlutterPlugin, ActivityAware, MethodCallHandle
   ///
   /// This local reference serves to register the plugin with the Flutter Engine and unregister it
   /// when the Flutter Engine is detached from the Activity
-  
+
   private MethodChannel channel;
   private Activity activity;
   private Application application;
 
   private static final String CHANNEL_HWM = "com.cont.hwm/hwm";
-  
+
 
   @Override
   public void onAttachedToActivity(@NonNull final ActivityPluginBinding binding) {
@@ -75,7 +75,7 @@ public class HwmPlugin implements FlutterPlugin, ActivityAware, MethodCallHandle
   }
   public void methodCall(@NonNull MethodCall call, @NonNull Result result) {
     if (call.method.equals("hwm")) {
-      int callType = Integer.parseInt(call.argument("callType"));//呼叫类型  0：呼叫通话，callList只能有一个对象， 1：发起会议，2：加入会议，3：登陆，4登出，5注册。
+      int callType = Integer.parseInt(call.argument("callType"));//呼叫类型  0：呼叫通话，callList只能有一个对象， 1：发起会议，2：加入会议，3：登陆，4登出，5注册,6:预约会议。
       String callListStr = call.argument("callList");//呼叫对象list   必传字段有name，id， 不必须字段有phone
       List<People> callList = new ArrayList<>();
       People p = new People();
@@ -94,6 +94,8 @@ public class HwmPlugin implements FlutterPlugin, ActivityAware, MethodCallHandle
       String password = call.argument("password");//会议密码 加入带密码会议时需要
       String userName = call.argument("userName");//用户名称 注册时需要
       String userId = call.argument("userId");//用户id 注册时需要
+      String startTime = call.argument("startTime");//会议开始时间 预约会议时需要
+      String timeDur = call.argument("timeDur");//会议持续时间 预约会议时需要
 
 
       if (callType == 0) {
@@ -211,7 +213,24 @@ public class HwmPlugin implements FlutterPlugin, ActivityAware, MethodCallHandle
           }
         });
       } else if (callType == 5) {
-        HWMHelp.init(application);
+
+
+      }else if (callType == 6) {
+        HWMHelp.orderContWithList(callList,application,meetingTitle,startTime,timeDur,new HwmCallback<ConfInfo>() {
+          @Override
+          public void onFailed(int i, String s) {
+            String err = ErrorMessageFactory.create( i);
+            if (TextUtils.isEmpty(err)) {
+              err = Utils.getApp().getString(R.string.hwmconf_book_conf_fail);
+            }
+            toast("预约会议失败");
+          }
+
+          @Override
+          public void onSuccess(ConfInfo confInfo) {
+            toast("预约会议成功");
+          }
+        });
 
       }
 
@@ -240,7 +259,7 @@ public class HwmPlugin implements FlutterPlugin, ActivityAware, MethodCallHandle
   public void onDetachedFromEngine(@NonNull FlutterPluginBinding binding) {
     channel.setMethodCallHandler(null);
   }
-  
+
   class People{
     private String name;
     private String id;

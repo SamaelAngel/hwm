@@ -44,7 +44,7 @@ import io.flutter.Log;
 
 
 public class HWMHelp {
-    
+
     public static void createContWithList(List<HwmPlugin.People> list, boolean isVideo, String title, boolean needPassword, Application application, HwmCancelableCallBack<ConfInfo> callBack){
 
         List<AttendeeModel> attendeeList = new ArrayList<>();
@@ -52,7 +52,7 @@ public class HWMHelp {
             AttendeeModel model = AttendeeModel.buildAttendeeByThirdUserId(people.getId(),people.getName());
             attendeeList.add(model);
         }
-       
+
         CreateConfParam createConfParam = new CreateConfParam()
                 .setSubject(title)
                 .setConfType(isVideo ? ConfType.CONF_VIDEO_AND_DATA : ConfType.CONF_AUDIO_AND_DATA)
@@ -118,6 +118,35 @@ public class HWMHelp {
     public static void logOutHwy(Application application,HwmCallback callback) {
         HWMSdk.getOpenApi(application).logout(callback);
 
+    }
+
+    public static void orderContWithList(List<HwmPlugin.People> list, Application application, String title, String startDate, String timedurStr, HwmCallback<ConfInfo> callback) {
+
+        List<AttendeeModel> attendeeList = new ArrayList<>();
+        for (HwmPlugin.People entity:list){
+
+            AttendeeModel model = AttendeeModel.buildAttendeeByThirdUserId(entity.getId(),entity.getName());
+            attendeeList.add(model);
+        }
+
+        JoinConfPermissionType permissionType = JoinConfPermissionType.valueOf(0);//（0-所有人，2-企业内，3-会议邀请人员）"
+        BookConfParam bookConfParam = new BookConfParam()
+                .setConfSubject(title)
+                .setStartTime(BaseDateUtil.dateToTimeStamp(startDate, BaseDateUtil.FMT_YMDHMS))
+                .setTimeZone(56)
+                .setDuration(Integer.parseInt(timedurStr))
+                .setConfType( MeetingType.CONF_VIDEO)
+                .setVmrIdFlag(false)
+                .setVmrId("")
+                .setNeedConfPwd(false)
+                .setJoinConfRestrictionType(permissionType)
+                .setRecordOn(false)
+                .setAutoRecord(false)
+                .setMailOn(false)
+                .setSmsOn(false)
+                .setEmailCalenderOn(false)
+                .setAttendees(attendeeList);
+        HWMBizSdk.getBizOpenApi().bookConf(bookConfParam,callback);
     }
     public static void init(Application application) {
         OpenSDKConfig sdkConfig = new OpenSDKConfig(application)
