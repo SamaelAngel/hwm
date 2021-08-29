@@ -71,9 +71,6 @@
     <permission
         android:name="com.cont.pandaForestFire.permission.RECEIVE_MSG"
         android:protectionLevel="signature" />
-    <permission
-        android:name="com.cont.pandaForestFire.permission.INCOMING_CALL"
-        android:protectionLevel="signature" />
     <!-- // 接收 SDK 消息广播权限， 第三方 APP 接入时，请将 com.yuntongxun.ecdemo 替换为自己的包名 -->
 
     <uses-permission android:name="com.cont.hlymanage.permission.RECEIVE_MSG" />
@@ -121,10 +118,8 @@
 
     <application
 
-
         android:allowBackup="true"
         android:largeHeap="true"
-        android:networkSecurityConfig="@xml/hwm_network_security_config"
         android:supportsRtl="true"
         tools:replace="android:allowBackup">
 

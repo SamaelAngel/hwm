@@ -59,7 +59,7 @@ class _MyAppState extends State<MyApp> {
                 height: 100,
                 color: Color.fromARGB(255, 98, 123, 255),
                 onPressed: (){
-                  Hwm.hwminit;
+                  Hwm.hwminit("");
                 },
 
                 child: Text("注册 （必须）"),
@@ -74,7 +74,7 @@ class _MyAppState extends State<MyApp> {
                 height: 100,
                 color: Color.fromARGB(255, 98, 123, 255),
                 onPressed: (){
-                  Hwm.hwmlogin;
+                  Hwm.hwmlogin("");
                 },
 
                 child: Text("登陆"),
@@ -89,7 +89,7 @@ class _MyAppState extends State<MyApp> {
                 height: 100,
                 color: Color.fromARGB(255, 98, 123, 255),
                 onPressed: (){
-                  Hwm.hwmlogout;
+                  Hwm.hwmlogout("");
                 },
 
                 child: Text("登出"),
@@ -104,7 +104,7 @@ class _MyAppState extends State<MyApp> {
                 height: 100,
                 color: Color.fromARGB(255, 98, 123, 255),
                 onPressed: (){
-                  Hwm.hwmcall;
+                  Hwm.hwmcall("");
                 },
 
                 child: Text("呼叫"),
@@ -119,7 +119,7 @@ class _MyAppState extends State<MyApp> {
                 height: 100,
                 color: Color.fromARGB(255, 98, 123, 255),
                 onPressed: (){
-                  Hwm.hwmaddmeeting;
+                  Hwm.hwmaddmeeting("");
                 },
 
                 child: Text("创建会议"),
@@ -134,7 +134,7 @@ class _MyAppState extends State<MyApp> {
                 height: 100,
                 color: Color.fromARGB(255, 98, 123, 255),
                 onPressed: (){
-                  Hwm.hwmjoinmeeting;
+                  Hwm.hwmjoinmeeting("");
                 },
 
                 child: Text("加入会议"),

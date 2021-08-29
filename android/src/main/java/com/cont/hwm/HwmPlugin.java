@@ -7,6 +7,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
+import com.google.gson.reflect.TypeToken;
 import com.huawei.hwmbiz.eventbus.LoginResult;
 import com.huawei.hwmconf.presentation.error.ErrorMessageFactory;
 import com.huawei.hwmconf.sdk.model.conf.entity.ConfInfo;
@@ -14,6 +15,7 @@ import com.huawei.hwmconf.sdk.util.Utils;
 import com.huawei.hwmfoundation.HwmContext;
 import com.huawei.hwmfoundation.callback.HwmCallback;
 import com.huawei.hwmfoundation.callback.HwmCancelableCallBack;
+import com.huawei.hwmfoundation.utils.GsonUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -74,31 +76,23 @@ public class HwmPlugin implements FlutterPlugin, ActivityAware, MethodCallHandle
     });
   }
   public void methodCall(@NonNull MethodCall call, @NonNull Result result) {
-    if (call.method.equals("hwm")) {
-      int callType = Integer.parseInt(call.argument("callType"));//呼叫类型  0：呼叫通话，callList只能有一个对象， 1：发起会议，2：加入会议，3：登陆，4登出，5注册,6:预约会议。
-      String callListStr = call.argument("callList");//呼叫对象list   必传字段有name，id， 不必须字段有phone
-      List<People> callList = new ArrayList<>();
-      People p = new People();
-      p.setName("陈龙");
-      p.setId("cl");
-      callList.add(p);
-//      if (!TextUtils.isEmpty(callListStr)){
-//        callList = GsonUtil.fromJson(callListStr, new TypeToken<List<People>>() {}.getType());
-//      }
-//
-      String meetingTitle = call.argument("meetingTitle");//会议标题
+    if (call.method.contains("hwm")) {
+      Info info = GsonUtil.fromJson((String)call.arguments,Info.class);
+      List<People> callList = info.getCallList();
+      String meetingTitle = info.getMeetingTitle();//会议标题
 
-      String isVideo = call.argument("isVideo");//是否是视频会议 1是 0不是
-      String needPassword = call.argument("needPassword");//是否需要密码 1需要 0不需要
-      String meetingId = call.argument("meetingId");//会议id,加入会议会用到
-      String password = call.argument("password");//会议密码 加入带密码会议时需要
-      String userName = call.argument("userName");//用户名称 注册时需要
-      String userId = call.argument("userId");//用户id 注册时需要
-      String startTime = call.argument("startTime");//会议开始时间 预约会议时需要
-      String timeDur = call.argument("timeDur");//会议持续时间 预约会议时需要
+      String isVideo = info.getIsVideo();//是否是视频会议 1是 0不是
+      String needPassword = info.getNeedPassword();//是否需要密码 1需要 0不需要
+      String meetingId = info.getMeetingId();//会议id,加入会议会用到
+      String password = info.getPassword();//会议密码 加入带密码会议时需要
+      String userName = info.getUserName();//用户名称 注册时需要
+      String userId = info.getUserId();//用户id 注册时需要
+      String startTime = info.getStartTime();//会议开始时间 预约会议时需要
+      String timeDur = info.getTimeDur();//会议持续时间 预约会议时需要
+//      int callType = Integer.parseInt(call.argument("callType"));//呼叫类型  0：呼叫通话，callList只能有一个对象， 1：发起会议，2：加入会议，3：登陆，4登出，5注册,6:预约会议。
 
 
-      if (callType == 0) {
+      if (call.method.equals("hwmcall")) {
         HWMHelp.HwyCallSomeOne(callList.get(0), isVideo.equals("1"), this.application, new HwmCancelableCallBack<Void>() {
           @Override
           public void onSuccess(Void r) {
@@ -120,7 +114,7 @@ public class HwmPlugin implements FlutterPlugin, ActivityAware, MethodCallHandle
           }
 
         });
-      } else if (callType == 1) {
+      } else if (call.method.equals("hwmaddmeeting")) {
         HWMHelp.createContWithList(callList, isVideo.equals("1"), meetingTitle, needPassword.endsWith("1"), application, new HwmCancelableCallBack<ConfInfo>() {
           @Override
           public void onSuccess(ConfInfo ret) {
@@ -144,7 +138,7 @@ public class HwmPlugin implements FlutterPlugin, ActivityAware, MethodCallHandle
             Log.i("HWMSDKcreateConf", "创建会议失败: ");
           }
         });
-      } else if (callType == 2) {
+      } else if (call.method.equals("hwmjoinmeeting")) {
         HWMHelp.HwyJoinMeeting(meetingId, password, application, new HwmCancelableCallBack<Void>() {
           @Override
           public void onCancel() {
@@ -170,7 +164,7 @@ public class HwmPlugin implements FlutterPlugin, ActivityAware, MethodCallHandle
 
           }
         });
-      } else if (callType == 3) {
+      } else if (call.method.equals("hwmlogin")) {
         People people = new People();
         people.setId(userId);
         people.setName(userName);
@@ -197,7 +191,7 @@ public class HwmPlugin implements FlutterPlugin, ActivityAware, MethodCallHandle
             }
           }
         });
-      } else if (callType == 4) {
+      } else if (call.method.equals("hwmlogout")) {
         HWMHelp.logOutHwy(this.application, new HwmCallback<Void>() {
           @Override
           public void onFailed(int i, String s) {
@@ -212,10 +206,10 @@ public class HwmPlugin implements FlutterPlugin, ActivityAware, MethodCallHandle
             toast("登出成功");
           }
         });
-      } else if (callType == 5) {
+      } else if (call.method.equals("hwminit")) {
+        HWMHelp.init(application);
 
-
-      }else if (callType == 6) {
+      }else if (call.method.equals("hwmordermeeting")) {
         HWMHelp.orderContWithList(callList,application,meetingTitle,startTime,timeDur,new HwmCallback<ConfInfo>() {
           @Override
           public void onFailed(int i, String s) {
@@ -258,6 +252,110 @@ public class HwmPlugin implements FlutterPlugin, ActivityAware, MethodCallHandle
   @Override
   public void onDetachedFromEngine(@NonNull FlutterPluginBinding binding) {
     channel.setMethodCallHandler(null);
+  }
+
+  class Info{
+
+    private int callType;
+    private List<People> callList;
+    private String meetingTitle;
+    private String isVideo;
+    private String needPassword;
+    private String meetingId;
+    private String password;
+    private String userName;
+    private String userId;
+    private String startTime;
+    private String timeDur;
+
+
+    public int getCallType() {
+      return callType;
+    }
+
+    public void setCallType(int callType) {
+      this.callType = callType;
+    }
+
+    public List<People> getCallList() {
+      return callList;
+    }
+
+    public void setCallList(List<People> callList) {
+      this.callList = callList;
+    }
+
+    public String getMeetingTitle() {
+      return meetingTitle;
+    }
+
+    public void setMeetingTitle(String meetingTitle) {
+      this.meetingTitle = meetingTitle;
+    }
+
+    public String getIsVideo() {
+      return isVideo;
+    }
+
+    public void setIsVideo(String isVideo) {
+      this.isVideo = isVideo;
+    }
+
+    public String getNeedPassword() {
+      return needPassword;
+    }
+
+    public void setNeedPassword(String needPassword) {
+      this.needPassword = needPassword;
+    }
+
+    public String getMeetingId() {
+      return meetingId;
+    }
+
+    public void setMeetingId(String meetingId) {
+      this.meetingId = meetingId;
+    }
+
+    public String getPassword() {
+      return password;
+    }
+
+    public void setPassword(String password) {
+      this.password = password;
+    }
+
+    public String getUserName() {
+      return userName;
+    }
+
+    public void setUserName(String userName) {
+      this.userName = userName;
+    }
+
+    public String getUserId() {
+      return userId;
+    }
+
+    public void setUserId(String userId) {
+      this.userId = userId;
+    }
+
+    public String getStartTime() {
+      return startTime;
+    }
+
+    public void setStartTime(String startTime) {
+      this.startTime = startTime;
+    }
+
+    public String getTimeDur() {
+      return timeDur;
+    }
+
+    public void setTimeDur(String timeDur) {
+      this.timeDur = timeDur;
+    }
   }
 
   class People{
