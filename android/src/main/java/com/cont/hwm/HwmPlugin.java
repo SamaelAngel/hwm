@@ -207,7 +207,7 @@ public class HwmPlugin implements FlutterPlugin, ActivityAware, MethodCallHandle
           }
         });
       } else if (call.method.equals("hwminit")) {
-        HWMHelp.init(application);
+//        HWMHelp.init(application);
 
       }else if (call.method.equals("hwmordermeeting")) {
         HWMHelp.orderContWithList(callList,application,meetingTitle,startTime,timeDur,new HwmCallback<ConfInfo>() {
