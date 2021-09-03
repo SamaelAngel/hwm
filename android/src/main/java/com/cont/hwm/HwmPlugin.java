@@ -78,6 +78,9 @@ public class HwmPlugin implements FlutterPlugin, ActivityAware, MethodCallHandle
   public void methodCall(@NonNull MethodCall call, @NonNull Result result) {
     if (call.method.contains("hwm")) {
       Info info = GsonUtil.fromJson((String)call.arguments,Info.class);
+      if (info == null){
+        info = new Info();
+      }
       List<People> callList = info.getCallList();
       String meetingTitle = info.getMeetingTitle();//会议标题
 
