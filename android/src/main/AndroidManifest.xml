@@ -65,19 +65,7 @@
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
 
 
-    <!-- SDK 权限申明, 第三方 APP 接入时，请将 com.yuntongxun.ecdemo 替换为自己的包名 -->
-    <!-- // 和下面的 uses-permission 一起加入到你的 AndroidManifest 文件中。 -->
 
-    <permission
-        android:name="com.cont.pandaForestFire.permission.RECEIVE_MSG"
-        android:protectionLevel="signature" />
-    <!-- // 接收 SDK 消息广播权限， 第三方 APP 接入时，请将 com.yuntongxun.ecdemo 替换为自己的包名 -->
-
-    <uses-permission android:name="com.cont.hlymanage.permission.RECEIVE_MSG" />
-
-    <!-- // 如果没有VOIP功能可以忽略 -->
-
-    <uses-permission android:name="com.cont.hlymanage.permission.INCOMING_CALL" />
 
     <!-- 允许一个程序获取信息有关当前或最近运行的任务，一个缩略的任务状态，是否活动等等(必选配置) -->
     <uses-permission android:name="android.permission.GET_TASKS" />
