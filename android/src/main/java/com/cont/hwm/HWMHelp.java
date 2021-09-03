@@ -3,6 +3,7 @@ package com.cont.hwm;
 import android.app.Activity;
 import android.app.Application;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 
 import com.huawei.cloudlink.openapi.HWMSdk;
@@ -28,6 +29,8 @@ import com.huawei.hwmfoundation.HwmContext;
 import com.huawei.hwmfoundation.callback.HwmCallback;
 import com.huawei.hwmfoundation.callback.HwmCancelableCallBack;
 import com.huawei.hwmlogger.HCLog;
+import com.huawei.hwmsdk.jni.HwmNativeSDK;
+import com.huawei.hwmsdk.jni.HwmSDK;
 
 import java.nio.charset.StandardCharsets;
 import java.security.InvalidKeyException;
@@ -39,8 +42,6 @@ import java.util.Random;
 
 import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
-
-import io.flutter.Log;
 
 
 public class HWMHelp {
@@ -148,6 +149,7 @@ public class HWMHelp {
                 .setAttendees(attendeeList);
         HWMBizSdk.getBizOpenApi().bookConf(bookConfParam,callback);
     }
+
     public static void init(Application application) {
         OpenSDKConfig sdkConfig = new OpenSDKConfig(application)
                 .setAppId("685a5a67c3a74afaaa12dffae3c86e5e") //向会议服务器申请的appid
@@ -155,6 +157,7 @@ public class HWMHelp {
                 .setNeedScreenShare("true".equals(BuildConfig.needScreenShare))
                 .setNeedFeedback(false);
         HWMSdk.init(application, sdkConfig);
+        Log.e("", "dpsdpsdps HwmInit" );
 
     }
     public static void login(HwmPlugin.People people, Application application, HwmCallback callback){
