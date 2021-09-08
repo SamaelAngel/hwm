@@ -175,8 +175,8 @@ public class HwmPlugin implements FlutterPlugin, ActivityAware, MethodCallHandle
           @Override
           public void onFailed(int i, String s) {
             HwmContext.getInstance().runOnMainThread(() -> {
-              Log.i("HWMSDKLOGIN", "登录错误：" + i + s);
-              toast("登录错误：" + i + s);
+//              Log.i("HWMSDKLOGIN", "登录错误：" + i + s);
+//              toast("登录错误：" + i + s);
 
             });
           }
@@ -184,12 +184,12 @@ public class HwmPlugin implements FlutterPlugin, ActivityAware, MethodCallHandle
           @Override
           public void onSuccess(LoginResult loginResult) {
             if (loginResult != null) {
-              Log.i("HWMSDKLOGIN", "登录成功" + userId);
-              toast("登录成功");
+//              Log.i("HWMSDKLOGIN", "登录成功" + userId);
+//              toast("登录成功");
 
             } else {
-              Log.i("HWMSDKLOGIN", "已登录");
-              toast("已登录");
+//              Log.i("HWMSDKLOGIN", "已登录");
+//              toast("已登录");
 
             }
           }
@@ -198,15 +198,15 @@ public class HwmPlugin implements FlutterPlugin, ActivityAware, MethodCallHandle
         HWMHelp.logOutHwy(this.application, new HwmCallback<Void>() {
           @Override
           public void onFailed(int i, String s) {
-            Log.i("HWMSDKOutLog", "登出失败 : " + i + "; " + s);
-            toast("登出失败 : " + i + "; " + s);
+//            Log.i("HWMSDKOutLog", "登出失败 : " + i + "; " + s);
+//            toast("登出失败 : " + i + "; " + s);
 
           }
 
           @Override
           public void onSuccess(Void aVoid) {
-            Log.i("HWMSDKOutLog", "登出成功");
-            toast("登出成功");
+//            Log.i("HWMSDKOutLog", "登出成功");
+//            toast("登出成功");
           }
         });
       } else if (call.method.equals("hwminit")) {
