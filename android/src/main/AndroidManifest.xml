@@ -1,33 +1,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     package="com.cont.hwm">
-    <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
-    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
-    <uses-permission android:name="android.permission.CAMERA" />
-    <uses-permission android:name="android.permission.READ_CONTACTS" />
-    <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />
-    <uses-permission android:name="android.permission.RECORD_AUDIO" />
-    <uses-permission android:name="android.permission.WAKE_LOCK" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.DISABLE_KEYGUARD" />
-    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
-    <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES" />
-    <uses-permission android:name="com.huawei.android.launcher.permission.CHANGE_BADGE" />
-    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
-    <uses-permission android:name="android.permission.BLUETOOTH" />
-    <uses-permission android:name="android.permission.VIBRATE" />
-    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
-    <!--会议中会启动前台服务器保活-->
-    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
-
-
-
-
-
-
     <!-- normal permissions -->
+    <uses-permission android:name="android.permission.REORDER_TASKS" />
     <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES" />
     <uses-permission android:name="android.permission.REQUEST_IGNORE_BATTERY_OPTIMIZATIONS" />
     <uses-permission android:name="android.permission.READ_LOGS" />
@@ -65,6 +40,19 @@
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
 
 
+    <!-- SDK 权限申明, 第三方 APP 接入时，请将 com.yuntongxun.ecdemo 替换为自己的包名 -->
+    <!-- // 和下面的 uses-permission 一起加入到你的 AndroidManifest 文件中。 -->
+
+    <!--    <permission-->
+    <!--        android:name="com.cont.pandaForestFire.permission.RECEIVE_MSG"-->
+    <!--        android:protectionLevel="signature" />-->
+    <!--    <permission-->
+    <!--        android:name="com.cont.pandaForestFire.permission.INCOMING_CALL"-->
+    <!--        android:protectionLevel="signature" />-->
+    <!-- // 接收 SDK 消息广播权限， 第三方 APP 接入时，请将 com.yuntongxun.ecdemo 替换为自己的包名 -->
+
+
+    <!-- // 如果没有VOIP功能可以忽略 -->
 
 
     <!-- 允许一个程序获取信息有关当前或最近运行的任务，一个缩略的任务状态，是否活动等等(必选配置) -->
@@ -94,13 +82,10 @@
     <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS" />
 
     <!-- protection level is dangerous, need request runtime permission -->
-    <uses-permission android:name="android.permission." />
-    <uses-permission android:name="android.permission.READ_CALL_LOG" />
+
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
     <uses-permission android:name="android.permission.READ_CALENDAR" />
-    <uses-permission android:name="android.permission.READ_SMS" />
-
-
+    <!--    <uses-permission android:name="android.permission.READ_SMS" />-->
 
 
 
