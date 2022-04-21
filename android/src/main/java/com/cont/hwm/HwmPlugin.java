@@ -82,7 +82,6 @@ public class HwmPlugin implements FlutterPlugin, ActivityAware, MethodCallHandle
       if (info == null){
         info = new Info();
       }
-      HwmSDK.getSdkVersion();
       List<People> callList = info.getCallList();
       String meetingTitle = info.getMeetingTitle();//会议标题
 
@@ -98,6 +97,7 @@ public class HwmPlugin implements FlutterPlugin, ActivityAware, MethodCallHandle
 
 
       if (call.method.equals("hwmcall")) {
+
         HWMHelp.HwyCallSomeOne(callList.get(0), isVideo.equals("1"), this.application, new HwmCancelableCallBack<Void>() {
           @Override
           public void onSuccess(Void r) {
