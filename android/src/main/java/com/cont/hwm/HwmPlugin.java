@@ -16,6 +16,7 @@ import com.huawei.hwmfoundation.HwmContext;
 import com.huawei.hwmfoundation.callback.HwmCallback;
 import com.huawei.hwmfoundation.callback.HwmCancelableCallBack;
 import com.huawei.hwmfoundation.utils.GsonUtil;
+import com.huawei.hwmsdk.jni.HwmSDK;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -81,6 +82,7 @@ public class HwmPlugin implements FlutterPlugin, ActivityAware, MethodCallHandle
       if (info == null){
         info = new Info();
       }
+      HwmSDK.getSdkVersion();
       List<People> callList = info.getCallList();
       String meetingTitle = info.getMeetingTitle();//会议标题
 
